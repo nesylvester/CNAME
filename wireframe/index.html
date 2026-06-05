@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Unwind — Wireframe</title>
+<style>
+  :root{
+    --ink:#1c1c1e; --sub:#6b6b70; --line:#e2e2e6; --bg:#f4f4f6;
+    --card:#ffffff; --accent:#3a3a3c; --pill:#ececef; --good:#2f7d4f;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; background:#c9c9cf;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); display:flex; justify-content:center; min-height:100vh;}
+  .device{width:390px; max-width:100vw; min-height:100vh; background:var(--bg);
+    position:relative; overflow:hidden; box-shadow:0 0 40px rgba(0,0,0,.15);}
+  /* status + nav */
+  .status{height:44px; display:flex; align-items:center; justify-content:space-between;
+    padding:0 22px; font-size:13px; font-weight:600;}
+  .navbar{padding:6px 18px 10px; }
+  .navbar .greet{font-size:13px; color:var(--sub); letter-spacing:.3px; text-transform:uppercase;}
+  .navbar h1{margin:2px 0 0; font-size:26px; font-weight:800; letter-spacing:-.5px;}
+  /* screens */
+  .screen{display:none; padding:0 16px 110px;}
+  .screen.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+  /* generic card */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:14px; margin:12px 0; box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .row{display:flex; gap:12px; align-items:center;}
+  .thumb{width:56px; height:80px; border-radius:10px; background:
+     repeating-linear-gradient(135deg,#e7e7ec,#e7e7ec 8px,#dedee4 8px,#dedee4 16px);
+     flex:none; display:flex; align-items:center; justify-content:center; color:#a6a6ad; font-size:11px;}
+  .thumb.wide{width:100%; height:150px; border-radius:14px; font-size:13px; margin-bottom:10px;}
+  .title{font-weight:700; font-size:16px;}
+  .meta{font-size:13px; color:var(--sub); margin-top:3px;}
+  .pill{display:inline-block; background:var(--pill); color:#3a3a3c; font-size:11px;
+    font-weight:700; padding:4px 9px; border-radius:999px; margin:6px 6px 0 0;}
+  .pill.svc{background:#1c1c1e; color:#fff;}
+  .pill.new{background:#2f7d4f; color:#fff;}
+  /* brief header */
+  .brief{background:var(--ink); color:#fff; border-radius:22px; padding:18px; margin:12px 0;}
+  .brief .when{font-size:12px; opacity:.7; text-transform:uppercase; letter-spacing:.4px;}
+  .brief .big{font-size:22px; font-weight:800; margin:6px 0 2px;}
+  .brief .sub{font-size:13px; opacity:.8;}
+  .btn{display:block; width:100%; text-align:center; padding:14px; border-radius:14px;
+    border:none; font-size:16px; font-weight:700; margin-top:10px; cursor:pointer;}
+  .btn.primary{background:var(--ink); color:#fff;}
+  .btn.ghost{background:var(--pill); color:var(--ink);}
+  .section-h{font-size:13px; font-weight:700; color:var(--sub); text-transform:uppercase;
+    letter-spacing:.4px; margin:20px 4px 2px;}
+  /* swipe deck */
+  .deck{position:relative; height:520px; margin-top:8px;}
+  .swipe-card{position:absolute; inset:0; background:var(--card); border:1px solid var(--line);
+    border-radius:24px; padding:18px; display:flex; flex-direction:column;
+    box-shadow:0 8px 24px rgba(0,0,0,.08); transition:transform .35s ease, opacity .35s ease; touch-action:pan-y;}
+  .swipe-card .poster{flex:1; border-radius:16px; background:
+     repeating-linear-gradient(135deg,#e7e7ec,#e7e7ec 10px,#dedee4 10px,#dedee4 20px);
+     display:flex; align-items:center; justify-content:center; color:#a6a6ad; margin-bottom:14px;}
+  .deck-hint{display:flex; justify-content:space-between; font-size:12px; color:var(--sub); margin-top:10px;}
+  .deck-actions{display:flex; gap:10px; margin-top:6px;}
+  .deck-actions button{flex:1; padding:13px; border-radius:14px; border:1px solid var(--line);
+    background:#fff; font-size:13px; font-weight:700; cursor:pointer;}
+  .deck-actions .play{background:var(--ink); color:#fff; border-color:var(--ink);}
+  /* services grid (onboarding) */
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px;}
+  .svc-tile{border:2px solid var(--line); border-radius:16px; padding:14px 8px; text-align:center;
+    font-size:12px; font-weight:700; color:var(--sub); cursor:pointer; background:#fff; user-select:none;}
+  .svc-tile.on{border-color:var(--ink); color:var(--ink); background:#fafafa;}
+  .svc-tile .dot{width:30px; height:30px; border-radius:9px; background:#e7e7ec; margin:0 auto 8px;}
+  .svc-tile.on .dot{background:var(--ink);}
+  /* detail deep-link buttons */
+  .deeplink{display:flex; align-items:center; justify-content:space-between; padding:14px;
+    border:1px solid var(--line); border-radius:14px; margin-top:10px; background:#fff;}
+  .deeplink .l{display:flex; align-items:center; gap:10px; font-weight:700;}
+  .deeplink .l .dot{width:26px; height:26px; border-radius:7px; background:#1c1c1e;}
+  .deeplink .go{font-size:13px; color:var(--sub);}
+  /* tab bar */
+  .tabbar{position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:390px; max-width:100vw;
+    background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-top:1px solid var(--line);
+    display:flex; justify-content:space-around; padding:8px 0 22px;}
+  .tab{flex:1; text-align:center; font-size:10px; font-weight:600; color:var(--sub); cursor:pointer;}
+  .tab .ic{font-size:20px; display:block; margin-bottom:2px; filter:grayscale(1);}
+  .tab.on{color:var(--ink);}
+  .toast{position:fixed; bottom:96px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:#fff; padding:11px 18px; border-radius:999px; font-size:13px; font-weight:600;
+    opacity:0; transition:.3s; pointer-events:none; z-index:50;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .wf-tag{position:absolute; top:10px; right:14px; font-size:9px; letter-spacing:1px;
+    color:#b0b0b6; font-weight:700;}
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="wf-tag">WIREFRAME</div>
+  <div class="status"><span>9:41</span><span>● ● ● &nbsp; ▢</span></div>
+
+  <!-- ================= TONIGHT ================= -->
+  <div class="navbar">
+    <div class="greet" id="greet">Good evening, Nigel</div>
+    <h1 id="screenTitle">Tonight</h1>
+  </div>
+
+  <div id="tonight" class="screen active">
+    <div class="brief">
+      <div class="when">Your 6:00 PM unwind brief</div>
+      <div class="big">3 new episodes ready</div>
+      <div class="sub">~2h 10m total · across Netflix, Max & Hulu</div>
+      <button class="btn primary" onclick="go('deck')">Start swiping →</button>
+      <button class="btn ghost" onclick="toast('Picked a 22-min episode for you')">I've only got 30 min</button>
+    </div>
+
+    <div class="section-h">New for you</div>
+
+    <div class="card" onclick="go('detail')">
+      <div class="row">
+        <div class="thumb">poster</div>
+        <div>
+          <div class="title">Severance</div>
+          <div class="meta">S2 · E6 “Attila” · 48 min</div>
+          <span class="pill new">NEW</span><span class="pill svc">Apple TV+</span><span class="pill">Continue</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="go('detail')">
+      <div class="row">
+        <div class="thumb">poster</div>
+        <div>
+          <div class="title">The Last of Us</div>
+          <div class="meta">S2 · E3 · 52 min</div>
+          <span class="pill new">NEW</span><span class="pill svc">Max</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="go('detail')">
+      <div class="row">
+        <div class="thumb">poster</div>
+        <div>
+          <div class="title">Only Murders in the Building</div>
+          <div class="meta">S5 · E4 · 30 min</div>
+          <span class="pill new">NEW</span><span class="pill svc">Hulu</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Leaving soon</div>
+    <div class="card">
+      <div class="row">
+        <div class="thumb">poster</div>
+        <div>
+          <div class="title">Better Call Saul</div>
+          <div class="meta">Leaves Netflix in 4 days</div>
+          <span class="pill">Finish it</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SWIPE DECK ================= -->
+  <div id="deck" class="screen">
+    <div class="deck" id="deckStack">
+      <div class="swipe-card">
+        <div class="poster">poster art</div>
+        <div class="title" style="font-size:20px;">The Last of Us</div>
+        <div class="meta">S2 · E3 “Through the Valley” · 52 min · Max</div>
+        <div>
+          <span class="pill svc">Max</span><span class="pill new">NEW</span><span class="pill">Mid-season</span>
+        </div>
+        <div class="deck-hint"><span>◀ Not tonight</span><span>Add to lineup ▶</span></div>
+        <div class="deck-actions">
+          <button onclick="swipe('skip')">Skip</button>
+          <button onclick="toast('Shared link copied ✓')">Share</button>
+          <button class="play" onclick="go('detail')">Open ▸</button>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; color:var(--sub); font-size:13px; margin-top:14px;">
+      Swipe up to send to a friend · tap Open to jump into the app
+    </div>
+  </div>
+
+  <!-- ================= SHOW DETAIL ================= -->
+  <div id="detail" class="screen">
+    <div class="thumb wide">poster / hero art</div>
+    <div class="title" style="font-size:22px;">Severance</div>
+    <div class="meta">Season 2 · Episode 6 “Attila” · 48 min</div>
+    <div style="margin-top:8px;">
+      <span class="pill new">NEW EPISODE</span><span class="pill">Continue watching</span><span class="pill">Sci-fi · Thriller</span>
+    </div>
+
+    <div class="section-h">Watch now</div>
+    <div class="deeplink" onclick="toast('Opening Apple TV+ to S2·E6…')">
+      <div class="l"><div class="dot"></div> Apple TV+</div>
+      <div class="go">Open episode ▸</div>
+    </div>
+    <div class="deeplink" onclick="toast('Marked to download before your flight')">
+      <div class="l"><div class="dot" style="background:#6b6b70"></div> Download for offline</div>
+      <div class="go">In Apple TV+ ▸</div>
+    </div>
+
+    <div class="section-h">Share</div>
+    <button class="btn ghost" onclick="toast('Suggested watch sent ✓')">Send to a friend as a suggested watch</button>
+
+    <button class="btn primary" onclick="go('tonight')" style="margin-top:18px;">← Back to Tonight</button>
+  </div>
+
+  <!-- ================= ONBOARDING / SERVICES ================= -->
+  <div id="services" class="screen">
+    <p class="meta" style="margin:6px 4px 0;">Pick the streaming apps you pay for. We'll only show you what you can actually watch.</p>
+    <div class="grid" id="svcGrid"></div>
+    <button class="btn primary" onclick="go('tonight')" style="margin-top:22px;">Save & continue</button>
+    <div class="section-h">Brief time</div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <div><div class="title" style="font-size:15px;">Daily unwind brief</div><div class="meta">When should we brief you?</div></div>
+        <div class="pill svc">6:00 PM</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <div><div class="title" style="font-size:15px;">Push when an episode drops</div><div class="meta">Instant vs. batched</div></div>
+        <div class="pill">Batched</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TAB BAR ================= -->
+  <div class="tabbar">
+    <div class="tab on" data-s="tonight" onclick="go('tonight')"><span class="ic">🌙</span>Tonight</div>
+    <div class="tab" data-s="deck" onclick="go('deck')"><span class="ic">🃏</span>Discover</div>
+    <div class="tab" data-s="detail" onclick="go('detail')"><span class="ic">▶️</span>Watch</div>
+    <div class="tab" data-s="services" onclick="go('services')"><span class="ic">⚙️</span>Setup</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+  var titles={tonight:"Tonight", deck:"Discover", detail:"Severance", services:"Your services"};
+  var greets={tonight:"Good evening, Nigel", deck:"Swipe to build your lineup",
+              detail:"New episode", services:"Step 1 of 2"};
+  function go(s){
+    document.querySelectorAll('.screen').forEach(function(e){e.classList.remove('active');});
+    document.getElementById(s).classList.add('active');
+    document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on', t.dataset.s===s);});
+    document.getElementById('screenTitle').textContent=titles[s]||"";
+    document.getElementById('greet').textContent=greets[s]||"";
+    window.scrollTo(0,0);
+  }
+  var tEl=document.getElementById('toast'), tT;
+  function toast(msg){tEl.textContent=msg; tEl.classList.add('show'); clearTimeout(tT);
+    tT=setTimeout(function(){tEl.classList.remove('show');},1600);}
+  // services tiles
+  var svcs=["Netflix","Hulu","Max","Disney+","Apple TV+","Prime Video","Peacock","Paramount+","Crunchyroll"];
+  var grid=document.getElementById('svcGrid');
+  svcs.forEach(function(name,i){
+    var d=document.createElement('div'); d.className='svc-tile'+(i<5?' on':'');
+    d.innerHTML='<div class="dot"></div>'+name;
+    d.onclick=function(){d.classList.toggle('on');};
+    grid.appendChild(d);
+  });
+  // simple swipe on deck card
+  function swipe(dir){
+    var c=document.querySelector('#deckStack .swipe-card');
+    c.style.transform='translateX('+(dir==='skip'?'-':'')+'120%) rotate('+(dir==='skip'?'-':'')+'8deg)';
+    c.style.opacity='0';
+    toast(dir==='skip'?'Skipped for tonight':'Added to your lineup');
+    setTimeout(function(){c.style.transition='none'; c.style.transform=''; c.style.opacity='1';
+      setTimeout(function(){c.style.transition='';},30);},650);
+  }
+  // drag-to-swipe
+  (function(){
+    var card=document.querySelector('#deckStack .swipe-card'), sx=0, dx=0, drag=false;
+    if(!card) return;
+    card.addEventListener('touchstart',function(e){drag=true; sx=e.touches[0].clientX;});
+    card.addEventListener('touchmove',function(e){ if(!drag)return; dx=e.touches[0].clientX-sx;
+      card.style.transform='translateX('+dx+'px) rotate('+(dx/30)+'deg)';});
+    card.addEventListener('touchend',function(){ drag=false;
+      if(Math.abs(dx)>90){swipe(dx<0?'skip':'add');} else {card.style.transform='';} dx=0;});
+  })();
+</script>
+</body>
+</html>
