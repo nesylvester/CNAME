@@ -41,8 +41,8 @@
   <div class="status"><span>9:41</span><span>5G&nbsp; 100%</span></div>
   <header>
     <div class="k">New this week</div>
-    <h1>New episodes</h1>
-    <p>From shows you follow · tap one to open it</p>
+    <h1>Your shows</h1>
+    <p>Tap one to open it in the right app</p>
   </header>
 
   <div id="list"></div>
@@ -57,11 +57,11 @@
 <script>
   // Sample data only — no accounts, no tracking. Swap for live TMDB data later.
   var shows=[
-    {t:"Severance", ep:"S2 · E6 “Attila”", min:"48 min", svc:"Apple TV+", c1:"#5a4a8a", c2:"#241546", ab:"SEV"},
-    {t:"The Last of Us", ep:"S2 · E3", min:"52 min", svc:"Max", c1:"#7d3a3a", c2:"#3a1414", ab:"TLOU"},
-    {t:"Only Murders in the Building", ep:"S5 · E4", min:"30 min", svc:"Hulu", c1:"#caa04a", c2:"#5e3d12", ab:"OMB"},
-    {t:"The Bear", ep:"S4 · E2", min:"34 min", svc:"Hulu", c1:"#4a7d5e", c2:"#143a26", ab:"BEAR"},
-    {t:"Andor", ep:"S2 · E5", min:"45 min", svc:"Disney+", c1:"#3a6ea5", c2:"#16324f", ab:"AND"}
+    {t:"Love Island USA", ep:"S7 · Ep 18 (new tonight)", min:"65 min", svc:"Peacock", c1:"#1fb6c9", c2:"#0d4d57", ab:"♥"},
+    {t:"Summer House", ep:"S9 · Ep 7", min:"42 min", svc:"Peacock", c1:"#d98a3d", c2:"#5e3413", ab:"SH"},
+    {t:"Baylen Out Loud", ep:"S1 · Ep 9", min:"42 min", svc:"Max", c1:"#7d3a6e", c2:"#2e1428", ab:"BOL"},
+    {t:"New crime docs", ep:"3 new this week", min:"~50 min ea", svc:"Netflix", c1:"#7d3a3a", c2:"#2a0d0d", ab:"🔎"},
+    {t:"Crime doc spotlight", ep:"New limited series", min:"4 eps", svc:"Hulu", c1:"#2f6f4f", c2:"#0f2a1c", ab:"DOC"}
   ];
   var list=document.getElementById('list');
   shows.forEach(function(s){
