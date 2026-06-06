@@ -3,207 +3,177 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Unwind — Your Shows</title>
+<title>Settle</title>
 <style>
+  :root{
+    --bg:#f4efe8; --ink:#231f1c; --muted:#8b8175; --line:#e6ded2;
+    --card:#fbf8f3; --accent:#a35b46;
+  }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  body{margin:0; color:#f4f1fb;
+  body{margin:0; color:var(--ink); background:var(--bg);
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
-    display:flex; justify-content:center; background:#09060e;}
-  .app{width:390px; max-width:100vw; min-height:100vh; padding:0 18px 60px;
-    background:linear-gradient(180deg, var(--top,#1d1330), var(--bot,#09060e) 60%);
-    transition:background .4s ease;}
-  .status{height:50px; display:flex; align-items:center; justify-content:space-between;
-    font-size:14px; font-weight:700; color:#cfc6e6; padding:0 4px;}
-  header{padding:8px 4px 4px;}
-  header .k{font-size:12px; letter-spacing:1.2px; text-transform:uppercase; color:#ffb454; font-weight:800;}
-  header h1{margin:4px 0 0; font-size:28px; font-weight:800; letter-spacing:-.5px;}
-  header p{margin:6px 0 0; color:#a99ec7; font-size:14px;}
+    display:flex; justify-content:center; transition:background .4s ease;}
+  .app{width:390px; max-width:100vw; min-height:100vh; padding:0 24px 70px;}
+  .serif{font-family:ui-serif,"Iowan Old Style","Palatino Linotype",Georgia,"Times New Roman",serif;}
 
-  .theme{display:flex; align-items:center; gap:10px; padding:16px 4px 8px; flex-wrap:wrap;}
-  .theme .lab{font-size:12px; color:#a99ec7; font-weight:700; width:100%; margin-bottom:2px;}
-  .sw{width:32px; height:32px; border-radius:50%; cursor:pointer; border:2px solid rgba(255,255,255,.25);}
-  .sw.on{border-color:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.18);}
-  .sw.custom{display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800;
-    background:conic-gradient(#ff7a8a,#ffb454,#7fe0c0,#5a9bff,#b07aff,#ff7a8a); color:#fff; position:relative; overflow:hidden;}
-  .sw.custom input{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .status{height:54px; display:flex; align-items:center; justify-content:space-between;
+    font-size:13px; font-weight:600; color:var(--muted);}
+  header{padding:14px 0 2px;}
+  header .k{font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); font-weight:700;}
+  header h1{margin:10px 0 0; font-size:34px; font-weight:500; letter-spacing:-.5px; line-height:1.1;}
+  header p{margin:10px 0 0; color:var(--muted); font-size:15px; line-height:1.4;}
 
-  .item{display:flex; gap:14px; align-items:center; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.07); cursor:pointer;}
-  .poster{width:58px; height:82px; border-radius:12px; flex:none; position:relative;
-    display:flex; align-items:flex-end; padding:7px; font-weight:800; font-size:13px;
-    color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.5);}
-  .badge{position:absolute; top:6px; left:6px; background:#ff7a8a; color:#fff;
-    font-size:9px; font-weight:900; padding:2px 6px; border-radius:6px;}
+  /* swatches */
+  .theme{display:flex; align-items:center; gap:11px; padding:22px 0 6px;}
+  .theme .lab{font-size:11px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-right:2px;}
+  .sw{width:24px; height:24px; border-radius:50%; cursor:pointer; border:1px solid rgba(0,0,0,.12);}
+  .sw.on{outline:1.5px solid var(--ink); outline-offset:2px;}
+
+  /* section labels */
+  .sec{font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted);
+    font-weight:700; margin:34px 0 2px;}
+  .secsub{color:var(--muted); font-size:14px; margin:6px 0 4px;}
+
+  /* craving */
+  .food{margin:14px 0 0; padding:26px 22px; border-radius:4px; border:1px solid var(--line);
+    background:var(--card); text-align:center;}
+  .food .lab{font-size:11px; color:var(--muted); letter-spacing:2.5px; text-transform:uppercase;}
+  .food .pick{font-size:30px; margin:14px 0 18px; font-weight:500;}
+  .food button{padding:12px 22px; border-radius:2px; border:1px solid var(--ink); background:transparent;
+    color:var(--ink); font-weight:600; font-size:14px; letter-spacing:.3px; cursor:pointer;}
+  .food .add{display:flex; gap:8px; margin-top:16px;}
+  .food .add input{flex:1; padding:11px 12px; border-radius:2px; border:1px solid var(--line);
+    background:#fff; color:var(--ink); font-size:14px;}
+  .food .add input::placeholder{color:#b7ac9d;}
+  .food .add button{border-color:var(--line); color:var(--muted);}
+
+  /* show rows */
+  .item{display:flex; gap:16px; align-items:center; padding:18px 0;
+    border-bottom:1px solid var(--line); cursor:pointer;}
+  .poster{width:54px; height:74px; border-radius:3px; flex:none; position:relative;
+    display:flex; align-items:center; justify-content:center; color:#fff; font-weight:500; font-size:15px;}
+  .poster .mono{font-family:ui-serif,Georgia,serif; opacity:.9;}
   .info{flex:1; min-width:0;}
-  .t{font-size:17px; font-weight:800;}
-  .m{font-size:13px; color:#a99ec7; margin-top:3px;}
-  .svc{display:inline-block; margin-top:8px; font-size:11px; font-weight:800;
-    background:rgba(255,255,255,.12); padding:5px 11px; border-radius:999px;}
-  .open{font-size:24px; color:#6f6490;}
-  .sech{margin:30px 4px 0; font-size:13px; font-weight:800; color:#ffb454;
-    text-transform:uppercase; letter-spacing:1px;}
-  .sub{margin:5px 4px 0; color:#a99ec7; font-size:13px;}
-  .food{margin:18px 0 4px; padding:18px; border-radius:20px;
-    background:linear-gradient(135deg, rgba(255,180,84,.18), rgba(255,122,138,.14));
-    border:1px solid rgba(255,255,255,.12); text-align:center;}
-  .food .lab{font-size:12px; color:#ffd9a8; font-weight:800; text-transform:uppercase; letter-spacing:1px;}
-  .food .pick{font-size:30px; font-weight:800; margin:8px 0 12px;}
-  .food button{padding:13px 18px; border-radius:14px; border:none; font-weight:800; font-size:15px;
-    cursor:pointer; background:#fff; color:#2a1550;}
-  .food .add{display:flex; gap:8px; margin-top:12px;}
-  .food .add input{flex:1; padding:11px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.2);
-    background:rgba(255,255,255,.08); color:#fff; font-size:14px;}
-  .food .add input::placeholder{color:#bbaed6;}
-  .food .add button{background:rgba(255,255,255,.16); color:#fff;}
-  .foot{text-align:center; color:#6f6490; font-size:11px; margin-top:26px; line-height:1.6;}
+  .new{font-size:10px; letter-spacing:1.8px; text-transform:uppercase; color:var(--accent); font-weight:700;}
+  .t{font-size:17px; font-weight:600; margin-top:3px;}
+  .m{font-size:13px; color:var(--muted); margin-top:3px;}
+  .svc{font-size:12px; color:var(--ink); margin-top:7px; letter-spacing:.3px;}
+  .svc b{font-weight:600;}
+  .open{font-size:20px; color:#c3b8a8;}
+
+  .foot{text-align:center; color:#b7ac9d; font-size:11px; margin-top:34px; line-height:1.7; letter-spacing:.2px;}
   .toast{position:fixed; bottom:34px; left:50%; transform:translateX(-50%) translateY(20px);
-    background:#fff; color:#2a1550; padding:12px 18px; border-radius:999px; font-size:13px; font-weight:800;
-    opacity:0; transition:.3s; box-shadow:0 10px 30px rgba(0,0,0,.4);}
+    background:var(--ink); color:#fff; padding:12px 20px; border-radius:2px; font-size:13px; font-weight:600;
+    opacity:0; transition:.3s; pointer-events:none;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="status"><span>9:41</span><span>5G&nbsp; 100%</span></div>
+  <div class="status"><span>9:41</span><span>Friday</span></div>
+
   <header>
-    <div class="k">New this week</div>
-    <h1>Your shows</h1>
-    <p>Tap one to open it in the right app</p>
+    <div class="k">Tonight</div>
+    <h1 class="serif">Let's settle in.</h1>
+    <p>Three new episodes, one easy pick, dinner sorted.</p>
   </header>
 
   <div class="theme">
-    <span class="lab">Background color</span>
-    <div class="sw on" style="background:#1d1330" onclick="setBg('#1d1330',this)"></div>
-    <div class="sw" style="background:#0d2e3a" onclick="setBg('#0d2e3a',this)"></div>
-    <div class="sw" style="background:#1f0f2e" onclick="setBg('#1f0f2e',this)"></div>
-    <div class="sw" style="background:#142a1c" onclick="setBg('#142a1c',this)"></div>
-    <div class="sw" style="background:#2e1810" onclick="setBg('#2e1810',this)"></div>
-    <div class="sw" style="background:#241546" onclick="setBg('#241546',this)"></div>
-    <div class="sw" style="background:#0e1430" onclick="setBg('#0e1430',this)"></div>
-    <div class="sw" style="background:#2a0d18" onclick="setBg('#2a0d18',this)"></div>
-    <label class="sw custom">+<input type="color" id="cpick" oninput="setBg(this.value)"></label>
+    <span class="lab">Theme</span>
+    <div class="sw on" style="background:#f4efe8" onclick="setBg('#f4efe8',this)"></div>
+    <div class="sw" style="background:#e9e4dc" onclick="setBg('#e9e4dc',this)"></div>
+    <div class="sw" style="background:#e7e6e1" onclick="setBg('#e7e6e1',this)"></div>
+    <div class="sw" style="background:#e8e0db" onclick="setBg('#e8e0db',this)"></div>
+    <div class="sw" style="background:#e0e3df" onclick="setBg('#e0e3df',this)"></div>
+    <div class="sw" style="background:#1f1d1b" onclick="setBg('#1f1d1b',this)"></div>
   </div>
 
+  <div class="sec">Tonight's craving</div>
   <div class="food">
-    <div class="lab">Tonight's craving</div>
-    <div class="pick" id="craving">🍕 Pizza</div>
-    <button onclick="spinFood()">🎲 Spin again</button>
+    <div class="lab">What sounds good</div>
+    <div class="pick serif" id="craving">Thai</div>
+    <button onclick="spinFood()">Spin again</button>
     <div class="add">
-      <input id="newFood" placeholder="Add your own (e.g. 🌮 Tacos)" />
+      <input id="newFood" placeholder="Add your own" />
       <button onclick="addFood()">Add</button>
     </div>
   </div>
 
-  <!-- Shows (static so they always show, even in a basic preview) -->
-  <div class="item" onclick="toast('Would open Peacock →')">
-    <div class="poster" style="background:linear-gradient(160deg,#1fb6c9,#0d4d57)">♥<span class="badge">NEW</span></div>
-    <div class="info"><div class="t">Love Island USA</div>
-      <div class="m">S7 · Ep 18 (new tonight) · 65 min</div>
-      <span class="svc">▶ Peacock</span></div>
+  <div class="sec">New for you</div>
+
+  <div class="item" onclick="toast('Opens in Peacock')">
+    <div class="poster" style="background:#7d8a6f"><span class="mono">LI</span></div>
+    <div class="info"><div class="new">New tonight</div><div class="t">Love Island USA</div>
+      <div class="m">Season 7 · Episode 18 · 65 min</div>
+      <div class="svc">on <b>Peacock</b></div></div>
     <div class="open">›</div>
   </div>
 
-  <div class="item" onclick="toast('Would open Peacock →')">
-    <div class="poster" style="background:linear-gradient(160deg,#d98a3d,#5e3413)">SH<span class="badge">NEW</span></div>
-    <div class="info"><div class="t">Summer House</div>
-      <div class="m">S9 · Ep 7 · 42 min</div>
-      <span class="svc">▶ Peacock</span></div>
+  <div class="item" onclick="toast('Opens in Peacock')">
+    <div class="poster" style="background:#b08968"><span class="mono">SH</span></div>
+    <div class="info"><div class="new">New</div><div class="t">Summer House</div>
+      <div class="m">Season 9 · Episode 7 · 42 min</div>
+      <div class="svc">on <b>Peacock</b></div></div>
     <div class="open">›</div>
   </div>
 
-  <div class="item" onclick="toast('Would open Max →')">
-    <div class="poster" style="background:linear-gradient(160deg,#7d3a6e,#2e1428)">BOL<span class="badge">NEW</span></div>
-    <div class="info"><div class="t">Baylen Out Loud</div>
-      <div class="m">S1 · Ep 9 · 42 min</div>
-      <span class="svc">▶ Max</span></div>
+  <div class="item" onclick="toast('Opens in Max')">
+    <div class="poster" style="background:#9c7089"><span class="mono">BO</span></div>
+    <div class="info"><div class="new">New</div><div class="t">Baylen Out Loud</div>
+      <div class="m">Season 1 · Episode 9 · 42 min</div>
+      <div class="svc">on <b>Max</b></div></div>
     <div class="open">›</div>
   </div>
 
-  <div class="item" onclick="toast('Would open Netflix →')">
-    <div class="poster" style="background:linear-gradient(160deg,#7d3a3a,#2a0d0d)">🔎<span class="badge">NEW</span></div>
-    <div class="info"><div class="t">New crime docs</div>
-      <div class="m">3 new this week · ~50 min each</div>
-      <span class="svc">▶ Netflix</span></div>
-    <div class="open">›</div>
-  </div>
+  <div class="sec">Pick for you</div>
+  <div class="secsub">One choice from across all your apps — so you don't have to look.</div>
 
-  <div class="item" onclick="toast('Would open Hulu →')">
-    <div class="poster" style="background:linear-gradient(160deg,#2f6f4f,#0f2a1c)">DOC<span class="badge">NEW</span></div>
-    <div class="info"><div class="t">Crime doc spotlight</div>
-      <div class="m">New limited series · 4 eps</div>
-      <span class="svc">▶ Hulu</span></div>
-    <div class="open">›</div>
-  </div>
-
-  <div class="sech">Picked for Friday night</div>
-  <p class="sub">One pick from across all your apps — so you don't have to look.</p>
-
-  <div class="item" onclick="toast('Would open Netflix →')">
-    <div class="poster" style="background:linear-gradient(160deg,#3a6ea5,#16324f)">★</div>
+  <div class="item" onclick="toast('Opens in Netflix')">
+    <div class="poster" style="background:#6a7b8a"><span class="mono">PM</span></div>
     <div class="info"><div class="t">Perfect Match</div>
       <div class="m">Because you love Love Island</div>
-      <span class="svc">▶ Netflix</span></div>
+      <div class="svc">on <b>Netflix</b></div></div>
     <div class="open">›</div>
   </div>
 
-  <div class="item" onclick="toast('Would open Hulu →')">
-    <div class="poster" style="background:linear-gradient(160deg,#caa04a,#5e3d12)">★</div>
-    <div class="info"><div class="t">The Kardashians</div>
-      <div class="m">Same reality vibe, you haven't started it</div>
-      <span class="svc">▶ Hulu</span></div>
-    <div class="open">›</div>
-  </div>
-
-  <div class="item" onclick="toast('Would open Max →')">
-    <div class="poster" style="background:linear-gradient(160deg,#7d3a3a,#2a0d0d)">★</div>
+  <div class="item" onclick="toast('Opens in Max')">
+    <div class="poster" style="background:#8a6a6a"><span class="mono">JX</span></div>
     <div class="info"><div class="t">The Jinx</div>
-      <div class="m">Top-rated crime doc you'd probably binge</div>
-      <span class="svc">▶ Max</span></div>
+      <div class="m">Top crime doc you'd probably binge</div>
+      <div class="svc">on <b>Max</b></div></div>
     <div class="open">›</div>
   </div>
 
   <div class="foot">
-    Unwind links you to apps you already subscribe to.<br>
+    Settle links you to apps you already subscribe to.<br>
     Show data &amp; artwork via The Movie Database (TMDB).
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-  function darken(hex){var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255,f=0.30;
-    r=Math.round(r*f);g=Math.round(g*f);b=Math.round(b*f);
-    return "#"+(0x1000000+(r<<16)+(g<<8)+b).toString(16).slice(1);}
   function setBg(hex,el){
-    document.documentElement.style.setProperty('--top',hex);
-    document.documentElement.style.setProperty('--bot',darken(hex));
-    document.body.style.background=darken(hex);
-    try{localStorage.setItem('unwind_bg',hex);}catch(e){}
+    var dark = hex==='#1f1d1b';
+    document.body.style.background=hex;
+    document.documentElement.style.setProperty('--ink', dark?'#f1ece3':'#231f1c');
+    document.documentElement.style.setProperty('--muted', dark?'#9c9286':'#8b8175');
+    document.documentElement.style.setProperty('--line', dark?'#34302b':'#e6ded2');
+    document.documentElement.style.setProperty('--card', dark?'#262320':'#fbf8f3');
+    try{localStorage.setItem('settle_bg',hex);}catch(e){}
     document.querySelectorAll('.sw').forEach(function(s){s.classList.remove('on');});
     if(el)el.classList.add('on');
-    toast('Background updated 🎨');
+    toast('Theme updated');
   }
-  // ---- Tonight's craving spinner ----
-  var foods=["🍕 Pizza","🍜 Thai","🌮 Tacos","🍣 Sushi","🍔 Burgers","🥡 Chinese",
-    "🍝 Italian","🥙 Mediterranean","🍛 Indian","🍗 Wings","🥗 Poke","🌯 Burritos"];
-  try{var sf=JSON.parse(localStorage.getItem('unwind_food')); if(sf&&sf.length)foods=sf;}catch(e){}
-  function spinFood(){
-    var p=foods[Math.floor(Math.random()*foods.length)];
-    document.getElementById('craving').textContent=p;
-  }
-  function addFood(){
-    var i=document.getElementById('newFood'), v=i.value.trim();
-    if(!v)return; foods.push(v); i.value='';
-    try{localStorage.setItem('unwind_food',JSON.stringify(foods));}catch(e){}
-    document.getElementById('craving').textContent=v;
-    toast('Added '+v+' 🍽️');
-  }
-
+  var foods=["Thai","Pizza","Tacos","Sushi","Burgers","Chinese","Italian","Mediterranean","Indian","Wings","Poke","Ramen"];
+  try{var sf=JSON.parse(localStorage.getItem('settle_food')); if(sf&&sf.length)foods=sf;}catch(e){}
+  function spinFood(){document.getElementById('craving').textContent=foods[Math.floor(Math.random()*foods.length)];}
+  function addFood(){var i=document.getElementById('newFood'),v=i.value.trim(); if(!v)return;
+    foods.push(v); i.value=''; try{localStorage.setItem('settle_food',JSON.stringify(foods));}catch(e){}
+    document.getElementById('craving').textContent=v; toast('Added '+v);}
   var tEl=document.getElementById('toast'),tT;
   function toast(m){tEl.textContent=m;tEl.classList.add('show');clearTimeout(tT);
     tT=setTimeout(function(){tEl.classList.remove('show');},1500);}
-  try{var s=localStorage.getItem('unwind_bg'); if(s){
-    document.documentElement.style.setProperty('--top',s);
-    document.documentElement.style.setProperty('--bot',darken(s));
-  }}catch(e){}
+  try{var s=localStorage.getItem('settle_bg'); if(s)setBg(s);}catch(e){}
 </script>
 </body>
 </html>
