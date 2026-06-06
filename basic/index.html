@@ -6,8 +6,8 @@
 <title>Settle</title>
 <style>
   :root{
-    --bg:#f4efe8; --ink:#231f1c; --muted:#8b8175; --line:#e6ded2;
-    --card:#fbf8f3; --accent:#a35b46;
+    --bg:#fbfbfc; --ink:#1c1c1e; --muted:#8e8e93; --line:#ececee;
+    --card:#ffffff; --accent:#5b6573;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   body{margin:0; color:var(--ink); background:var(--bg);
@@ -23,47 +23,43 @@
   header h1{margin:10px 0 0; font-size:34px; font-weight:500; letter-spacing:-.5px; line-height:1.1;}
   header p{margin:10px 0 0; color:var(--muted); font-size:15px; line-height:1.4;}
 
-  /* swatches */
   .theme{display:flex; align-items:center; gap:11px; padding:22px 0 6px;}
   .theme .lab{font-size:11px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-right:2px;}
   .sw{width:24px; height:24px; border-radius:50%; cursor:pointer; border:1px solid rgba(0,0,0,.12);}
   .sw.on{outline:1.5px solid var(--ink); outline-offset:2px;}
 
-  /* section labels */
   .sec{font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted);
     font-weight:700; margin:34px 0 2px;}
   .secsub{color:var(--muted); font-size:14px; margin:6px 0 4px;}
 
-  /* craving */
-  .food{margin:14px 0 0; padding:26px 22px; border-radius:4px; border:1px solid var(--line);
+  .food{margin:14px 0 0; padding:26px 22px; border-radius:14px; border:1px solid var(--line);
     background:var(--card); text-align:center;}
   .food .lab{font-size:11px; color:var(--muted); letter-spacing:2.5px; text-transform:uppercase;}
   .food .pick{font-size:30px; margin:14px 0 18px; font-weight:500;}
-  .food button{padding:12px 22px; border-radius:2px; border:1px solid var(--ink); background:transparent;
+  .food button{padding:12px 22px; border-radius:10px; border:1px solid var(--ink); background:transparent;
     color:var(--ink); font-weight:600; font-size:14px; letter-spacing:.3px; cursor:pointer;}
   .food .add{display:flex; gap:8px; margin-top:16px;}
-  .food .add input{flex:1; padding:11px 12px; border-radius:2px; border:1px solid var(--line);
+  .food .add input{flex:1; padding:11px 12px; border-radius:10px; border:1px solid var(--line);
     background:#fff; color:var(--ink); font-size:14px;}
-  .food .add input::placeholder{color:#b7ac9d;}
+  .food .add input::placeholder{color:#b9bcc2;}
   .food .add button{border-color:var(--line); color:var(--muted);}
 
-  /* show rows */
   .item{display:flex; gap:16px; align-items:center; padding:18px 0;
     border-bottom:1px solid var(--line); cursor:pointer;}
-  .poster{width:54px; height:74px; border-radius:3px; flex:none; position:relative;
-    display:flex; align-items:center; justify-content:center; color:#fff; font-weight:500; font-size:15px;}
-  .poster .mono{font-family:ui-serif,Georgia,serif; opacity:.9;}
+  .poster{width:54px; height:74px; border-radius:8px; flex:none; position:relative;
+    display:flex; align-items:center; justify-content:center; color:#48484a; font-weight:500; font-size:15px;}
+  .poster .mono{font-family:ui-serif,Georgia,serif; opacity:.85;}
   .info{flex:1; min-width:0;}
   .new{font-size:10px; letter-spacing:1.8px; text-transform:uppercase; color:var(--accent); font-weight:700;}
   .t{font-size:17px; font-weight:600; margin-top:3px;}
   .m{font-size:13px; color:var(--muted); margin-top:3px;}
   .svc{font-size:12px; color:var(--ink); margin-top:7px; letter-spacing:.3px;}
   .svc b{font-weight:600;}
-  .open{font-size:20px; color:#c3b8a8;}
+  .open{font-size:20px; color:#c3c5ca;}
 
-  .foot{text-align:center; color:#b7ac9d; font-size:11px; margin-top:34px; line-height:1.7; letter-spacing:.2px;}
+  .foot{text-align:center; color:#b9bcc2; font-size:11px; margin-top:34px; line-height:1.7; letter-spacing:.2px;}
   .toast{position:fixed; bottom:34px; left:50%; transform:translateX(-50%) translateY(20px);
-    background:var(--ink); color:#fff; padding:12px 20px; border-radius:2px; font-size:13px; font-weight:600;
+    background:var(--ink); color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:600;
     opacity:0; transition:.3s; pointer-events:none;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 </style>
@@ -80,12 +76,12 @@
 
   <div class="theme">
     <span class="lab">Theme</span>
-    <div class="sw on" style="background:#f4efe8" onclick="setBg('#f4efe8',this)"></div>
-    <div class="sw" style="background:#e9e4dc" onclick="setBg('#e9e4dc',this)"></div>
-    <div class="sw" style="background:#e7e6e1" onclick="setBg('#e7e6e1',this)"></div>
-    <div class="sw" style="background:#e8e0db" onclick="setBg('#e8e0db',this)"></div>
-    <div class="sw" style="background:#e0e3df" onclick="setBg('#e0e3df',this)"></div>
-    <div class="sw" style="background:#1f1d1b" onclick="setBg('#1f1d1b',this)"></div>
+    <div class="sw on" style="background:#fbfbfc" onclick="setBg('#fbfbfc',this)"></div>
+    <div class="sw" style="background:#f2f2f4" onclick="setBg('#f2f2f4',this)"></div>
+    <div class="sw" style="background:#eaeaed" onclick="setBg('#eaeaed',this)"></div>
+    <div class="sw" style="background:#e4e5e9" onclick="setBg('#e4e5e9',this)"></div>
+    <div class="sw" style="background:#dadce1" onclick="setBg('#dadce1',this)"></div>
+    <div class="sw" style="background:#1c1c1e" onclick="setBg('#1c1c1e',this)"></div>
   </div>
 
   <div class="sec">Tonight's craving</div>
@@ -102,7 +98,7 @@
   <div class="sec">New for you</div>
 
   <div class="item" onclick="toast('Opens in Peacock')">
-    <div class="poster" style="background:#7d8a6f"><span class="mono">LI</span></div>
+    <div class="poster" style="background:#d6d8dc"><span class="mono">LI</span></div>
     <div class="info"><div class="new">New tonight</div><div class="t">Love Island USA</div>
       <div class="m">Season 7 · Episode 18 · 65 min</div>
       <div class="svc">on <b>Peacock</b></div></div>
@@ -110,7 +106,7 @@
   </div>
 
   <div class="item" onclick="toast('Opens in Peacock')">
-    <div class="poster" style="background:#b08968"><span class="mono">SH</span></div>
+    <div class="poster" style="background:#cdd0d5"><span class="mono">SH</span></div>
     <div class="info"><div class="new">New</div><div class="t">Summer House</div>
       <div class="m">Season 9 · Episode 7 · 42 min</div>
       <div class="svc">on <b>Peacock</b></div></div>
@@ -118,7 +114,7 @@
   </div>
 
   <div class="item" onclick="toast('Opens in Max')">
-    <div class="poster" style="background:#9c7089"><span class="mono">BO</span></div>
+    <div class="poster" style="background:#c4c7cd"><span class="mono">BO</span></div>
     <div class="info"><div class="new">New</div><div class="t">Baylen Out Loud</div>
       <div class="m">Season 1 · Episode 9 · 42 min</div>
       <div class="svc">on <b>Max</b></div></div>
@@ -129,7 +125,7 @@
   <div class="secsub">One choice from across all your apps — so you don't have to look.</div>
 
   <div class="item" onclick="toast('Opens in Netflix')">
-    <div class="poster" style="background:#6a7b8a"><span class="mono">PM</span></div>
+    <div class="poster" style="background:#d6d8dc"><span class="mono">PM</span></div>
     <div class="info"><div class="t">Perfect Match</div>
       <div class="m">Because you love Love Island</div>
       <div class="svc">on <b>Netflix</b></div></div>
@@ -137,7 +133,7 @@
   </div>
 
   <div class="item" onclick="toast('Opens in Max')">
-    <div class="poster" style="background:#8a6a6a"><span class="mono">JX</span></div>
+    <div class="poster" style="background:#cdd0d5"><span class="mono">JX</span></div>
     <div class="info"><div class="t">The Jinx</div>
       <div class="m">Top crime doc you'd probably binge</div>
       <div class="svc">on <b>Max</b></div></div>
@@ -153,12 +149,13 @@
 
 <script>
   function setBg(hex,el){
-    var dark = hex==='#1f1d1b';
+    var dark = hex==='#1c1c1e';
     document.body.style.background=hex;
-    document.documentElement.style.setProperty('--ink', dark?'#f1ece3':'#231f1c');
-    document.documentElement.style.setProperty('--muted', dark?'#9c9286':'#8b8175');
-    document.documentElement.style.setProperty('--line', dark?'#34302b':'#e6ded2');
-    document.documentElement.style.setProperty('--card', dark?'#262320':'#fbf8f3');
+    document.documentElement.style.setProperty('--ink', dark?'#f2f2f4':'#1c1c1e');
+    document.documentElement.style.setProperty('--muted', dark?'#9a9aa0':'#8e8e93');
+    document.documentElement.style.setProperty('--line', dark?'#2e2e31':'#ececee');
+    document.documentElement.style.setProperty('--card', dark?'#262629':'#ffffff');
+    document.documentElement.style.setProperty('--accent', dark?'#9aa3b2':'#5b6573');
     try{localStorage.setItem('settle_bg',hex);}catch(e){}
     document.querySelectorAll('.sw').forEach(function(s){s.classList.remove('on');});
     if(el)el.classList.add('on');
