@@ -39,6 +39,9 @@
   .svc{display:inline-block; margin-top:8px; font-size:11px; font-weight:800;
     background:rgba(255,255,255,.12); padding:5px 11px; border-radius:999px;}
   .open{font-size:24px; color:#6f6490;}
+  .sech{margin:30px 4px 0; font-size:13px; font-weight:800; color:#ffb454;
+    text-transform:uppercase; letter-spacing:1px;}
+  .sub{margin:5px 4px 0; color:#a99ec7; font-size:13px;}
   .foot{text-align:center; color:#6f6490; font-size:11px; margin-top:26px; line-height:1.6;}
   .toast{position:fixed; bottom:34px; left:50%; transform:translateX(-50%) translateY(20px);
     background:#fff; color:#2a1550; padding:12px 18px; border-radius:999px; font-size:13px; font-weight:800;
@@ -106,6 +109,33 @@
     <div class="info"><div class="t">Crime doc spotlight</div>
       <div class="m">New limited series · 4 eps</div>
       <span class="svc">▶ Hulu</span></div>
+    <div class="open">›</div>
+  </div>
+
+  <div class="sech">Picked for Friday night</div>
+  <p class="sub">One pick from across all your apps — so you don't have to look.</p>
+
+  <div class="item" onclick="toast('Would open Netflix →')">
+    <div class="poster" style="background:linear-gradient(160deg,#3a6ea5,#16324f)">★</div>
+    <div class="info"><div class="t">Perfect Match</div>
+      <div class="m">Because you love Love Island</div>
+      <span class="svc">▶ Netflix</span></div>
+    <div class="open">›</div>
+  </div>
+
+  <div class="item" onclick="toast('Would open Hulu →')">
+    <div class="poster" style="background:linear-gradient(160deg,#caa04a,#5e3d12)">★</div>
+    <div class="info"><div class="t">The Kardashians</div>
+      <div class="m">Same reality vibe, you haven't started it</div>
+      <span class="svc">▶ Hulu</span></div>
+    <div class="open">›</div>
+  </div>
+
+  <div class="item" onclick="toast('Would open Max →')">
+    <div class="poster" style="background:linear-gradient(160deg,#7d3a3a,#2a0d0d)">★</div>
+    <div class="info"><div class="t">The Jinx</div>
+      <div class="m">Top-rated crime doc you'd probably binge</div>
+      <span class="svc">▶ Max</span></div>
     <div class="open">›</div>
   </div>
 
