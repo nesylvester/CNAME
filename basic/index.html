@@ -10,7 +10,18 @@
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
     display:flex; justify-content:center;}
   .app{width:390px; max-width:100vw; min-height:100vh; padding:0 18px 40px;
-    background:linear-gradient(180deg,#1d1330,#0e0a18 55%);}
+    background:linear-gradient(180deg, var(--top,#1d1330), var(--bot,#0e0a18) 60%);
+    transition:background .4s ease;}
+  /* color picker */
+  .theme{display:flex; align-items:center; gap:10px; padding:14px 4px 4px; flex-wrap:wrap;}
+  .theme .lab{font-size:12px; color:#a99ec7; font-weight:700; width:100%;}
+  .sw{width:30px; height:30px; border-radius:50%; cursor:pointer; border:2px solid rgba(255,255,255,.25);
+    transition:transform .12s;}
+  .sw:active{transform:scale(.9);}
+  .sw.on{border-color:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.18);}
+  .sw.custom{display:flex; align-items:center; justify-content:center; font-size:14px;
+    background:conic-gradient(#ff7a8a,#ffb454,#7fe0c0,#5a9bff,#b07aff,#ff7a8a); color:#fff; position:relative; overflow:hidden;}
+  .sw.custom input{position:absolute; inset:0; opacity:0; cursor:pointer;}
   .status{height:50px; display:flex; align-items:center; justify-content:space-between;
     font-size:14px; font-weight:700; color:#cfc6e6; padding:0 4px;}
   header{padding:8px 4px 4px;}
@@ -45,6 +56,10 @@
     <p>Tap one to open it in the right app</p>
   </header>
 
+  <div class="theme" id="theme">
+    <span class="lab">Background color</span>
+  </div>
+
   <div id="list"></div>
 
   <div class="foot">
@@ -78,6 +93,37 @@
   var tEl=document.getElementById('toast'),tT;
   function toast(m){tEl.textContent=m;tEl.classList.add('show');clearTimeout(tT);
     tT=setTimeout(function(){tEl.classList.remove('show');},1600);}
+
+  // ---- Background color picker (saved on this phone only) ----
+  var presets=["#1d1330","#0d2e3a","#1f0f2e","#142a1c","#2e1810","#241546","#0e1430","#2a0d18"];
+  function darken(hex){ // make a near-black bottom shade from the chosen color
+    var n=parseInt(hex.slice(1),16), r=n>>16, g=(n>>8)&255, b=n&255, f=0.30;
+    r=Math.round(r*f); g=Math.round(g*f); b=Math.round(b*f);
+    return "#"+(0x1000000 + (r<<16) + (g<<8) + b).toString(16).slice(1);
+  }
+  function applyBg(hex,save){
+    document.documentElement.style.setProperty('--top',hex);
+    document.documentElement.style.setProperty('--bot',darken(hex));
+    document.body.style.background=darken(hex);
+    if(save){ try{localStorage.setItem('unwind_bg',hex);}catch(e){} }
+    document.querySelectorAll('.sw').forEach(function(s){s.classList.toggle('on',s.dataset.c===hex);});
+  }
+  var theme=document.getElementById('theme');
+  presets.forEach(function(c){
+    var s=document.createElement('div'); s.className='sw'; s.dataset.c=c;
+    s.style.background='linear-gradient(160deg,'+c+','+darken(c)+')';
+    s.onclick=function(){applyBg(c,true); toast('Background updated 🎨');};
+    theme.appendChild(s);
+  });
+  // custom color
+  var cs=document.createElement('label'); cs.className='sw custom'; cs.innerHTML='+<input type="color" id="cpick">';
+  theme.appendChild(cs);
+  var cpick=cs.querySelector('#cpick');
+  cpick.oninput=function(){applyBg(cpick.value,true);};
+  cpick.onchange=function(){toast('Custom color saved 🎨');};
+  // restore saved choice (or default)
+  var saved=null; try{saved=localStorage.getItem('unwind_bg');}catch(e){}
+  applyBg(saved||presets[0],false);
 </script>
 </body>
 </html>
